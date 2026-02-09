@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez votre potentiel de croissance avec l'IA">
+    <meta name="theme-color" content="#000887">
+    <title>Calculateur ROI — Homieux Media</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #000887;
+            --color-accent: #ED51C2;
+            --color-white: #FFFFFF;
+            --color-gray-100: #f8f9fa;
+            --color-gray-200: #e9ecef;
+            --color-gray-600: #6c757d;
+            --color-gray-800: #343a40;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2.5rem;
+            --space-xl: 4rem;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 8, 135, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 8, 135, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 8, 135, 0.16);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body { font-family: var(--font-family); background-color: var(--color-white); color: var(--color-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
+        .header { background-color: var(--color-primary); padding: var(--space-sm) 0; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-md); }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
+        .logo-link { display: block; flex-shrink: 0; text-decoration: none; }
+        .logo { height: 40px; width: auto; filter: brightness(0) invert(1); transition: var(--transition); }
+        .logo:hover { opacity: 0.9; transform: scale(1.02); }
+        .header-center { flex: 1; text-align: center; }
+        .tagline { color: var(--color-white); font-size: 0.875rem; font-weight: 500; opacity: 0.9; letter-spacing: 0.02em; }
+        .lang-selector select { background-color: rgba(255, 255, 255, 0.1); color: var(--color-white); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-sm); padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.5rem center; padding-right: 2rem; }
+        .lang-selector select:hover, .lang-selector select:focus { background-color: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.4); outline: none; }
+        .lang-selector option { background-color: var(--color-primary); color: var(--color-white); }
+        .hero { background: linear-gradient(135deg, var(--color-primary) 0%, #1a1a9e 100%); color: var(--color-white); padding: var(--space-xl) 0; text-align: center; }
+        .hero-title { font-size: clamp(1.75rem, 5vw, 2.75rem); font-weight: 700; line-height: 1.2; margin-bottom: var(--space-sm); max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hero-subtitle { font-size: clamp(1rem, 2.5vw, 1.25rem); opacity: 0.9; font-weight: 400; }
+        .calculator { padding: var(--space-xl) 0; background-color: var(--color-gray-100); }
+        .form-card { background-color: var(--color-white); border-radius: var(--radius-lg); padding: var(--space-lg); box-shadow: var(--shadow-lg); max-width: 800px; margin: 0 auto; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg); }
+        .form-group { display: flex; flex-direction: column; gap: var(--space-xs); }
+        .form-group label { font-size: 0.875rem; font-weight: 600; color: var(--color-primary); }
+        .form-group input, .form-group select { padding: 0.875rem 1rem; border: 2px solid var(--color-gray-200); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; transition: var(--transition); background-color: var(--color-white); }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(237, 81, 194, 0.1); }
+        .form-group input::placeholder { color: var(--color-gray-600); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); padding: 0.875rem 1.75rem; font-size: 1rem; font-weight: 600; font-family: inherit; border: none; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition); text-decoration: none; line-height: 1.5; }
+        .btn-primary { background-color: var(--color-primary); color: var(--color-white); width: 100%; }
+        .btn-primary:hover { background-color: #000660; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-accent { background-color: var(--color-accent); color: var(--color-white); width: 100%; }
+        .btn-accent:hover { background-color: #d946b0; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(237, 81, 194, 0.3); }
+        .btn-cta { background-color: var(--color-white); color: var(--color-primary); border: 2px solid var(--color-primary); font-size: 1.125rem; padding: 1.125rem 2.5rem; }
+        .btn-cta:hover { background-color: var(--color-primary); color: var(--color-white); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .btn-large { padding: 1rem 2rem; font-size: 1.125rem; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+        .results { padding: var(--space-xl) 0; background-color: var(--color-white); }
+        .section-title { text-align: center; font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-lg); }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-xl); }
+        .result-card { background-color: var(--color-gray-100); border-radius: var(--radius-md); padding: var(--space-md); text-align: center; border-left: 4px solid var(--color-accent); transition: var(--transition); }
+        .result-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .result-primary { background-color: var(--color-primary); color: var(--color-white); border-left-color: var(--color-accent); grid-column: 1 / -1; }
+        @media (min-width: 768px) { .result-primary { grid-column: span 2; } }
+        .result-label { display: block; font-size: 0.875rem; font-weight: 500; opacity: 0.8; margin-bottom: var(--space-xs); text-transform: uppercase; letter-spacing: 0.05em; }
+        .result-primary .result-label { color: rgba(255, 255, 255, 0.9); }
+        .result-value { display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary); }
+        .result-primary .result-value { color: var(--color-white); font-size: 2.5rem; }
+        .email-capture { background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-white) 100%); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-xl); border: 2px solid var(--color-gray-200); text-align: center; }
+        .email-capture h3 { font-size: 1.5rem; color: var(--color-primary); margin-bottom: var(--space-xs); }
+        .email-capture > p { color: var(--color-gray-600); margin-bottom: var(--space-md); }
+        .email-form { max-width: 500px; margin: 0 auto; }
+        .input-group { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-md); }
+        .input-group input[type="email"] { padding: 1rem; border: 2px solid var(--color-gray-200); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; transition: var(--transition); }
+        .input-group input[type="email"]:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(237, 81, 194, 0.1); }
+        .consent-label { display: flex; align-items: flex-start; gap: var(--space-xs); font-size: 0.875rem; color: var(--color-gray-600); text-align: left; cursor: pointer; }
+        .consent-label input[type="checkbox"] { margin-top: 0.25rem; width: 1rem; height: 1rem; accent-color: var(--color-accent); cursor: pointer; }
+        .status-message { margin-top: var(--space-sm); padding: var(--space-sm); border-radius: var(--radius-sm); font-weight: 500; display: none; }
+        .status-message.success { display: block; background-color: #d4edda; color: #155724; }
+        .status-message.error { display: block; background-color: #f8d7da; color: #721c24; }
+        .founder-message { display: flex; gap: var(--space-md); background-color: var(--color-gray-100); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-xl); border-left: 4px solid var(--color-accent); }
+        .founder-avatar { flex-shrink: 0; }
+        .avatar-placeholder { width: 64px; height: 64px; background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); color: var(--color-white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.5rem; }
+        .founder-content { flex: 1; }
+        .founder-role { font-size: 0.875rem; color: var(--color-accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .founder-content h3 { font-size: 1.25rem; color: var(--color-primary); margin: var(--space-xs) 0; font-weight: 600; }
+        .founder-content p { color: var(--color-gray-800); line-height: 1.7; margin-bottom: var(--space-sm); }
+        .founder-signature { font-style: italic; color: var(--color-gray-600); }
+        .cta-section { text-align: center; padding: var(--space-lg) 0; }
+        .cta-subtitle { margin-top: var(--space-sm); color: var(--color-gray-600); font-size: 1rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .footer { background-color: var(--color-primary); color: var(--color-white); padding: var(--space-md) 0; text-align: center; margin-top: auto; }
+        .rgpd-notice { font-size: 0.875rem; opacity: 0.8; margin-bottom: var(--space-xs); }
+        .copyright { font-size: 0.75rem; opacity: 0.6; }
+        [hidden] { display: none !important; }
+        @media (max-width: 768px) {
+            .header-inner { flex-wrap: wrap; }
+            .header-center { order: 3; width: 100%; text-align: left; margin-top: var(--space-xs); }
+            .tagline { font-size: 0.75rem; }
+            .founder-message { flex-direction: column; text-align: center; }
+            .avatar-placeholder { margin: 0 auto; }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .results:not([hidden]) { animation: fadeIn 0.6s ease-out; }
+        *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-inner">
+            <a href="https://homieuxmedia.com" class="logo-link" target="_blank" rel="noopener">
+                <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" fill="transparent"/>
+                    <rect x="15" y="25" width="70" height="50" fill="none" stroke="white" stroke-width="2"/>
+                    <text x="50" y="58" font-family="Arial" font-size="28" font-weight="bold" fill="white" text-anchor="middle">Hm</text>
+                    <path d="M15 25 L25 15 L85 15 L75 25" fill="none" stroke="white" stroke-width="2"/>
+                    <path d="M15 75 L25 85 L85 85 L75 75" fill="none" stroke="white" stroke-width="2"/>
+                </svg>
+            </a>
+            <div class="header-center"><span class="tagline" data-i18n="header.tagline">AI Marketing Agency in Belgium</span></div>
+            <div class="lang-selector">
+                <select id="lang-select" aria-label="Language selector">
+                    <option value="fr">🇫🇷 FR</option>
+                    <option value="nl">🇧🇪 NL</option>
+                    <option value="en">🇬🇧 EN</option>
+                </select>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title" data-i18n="hero.title">Quel est le véritable coût de vos process manuels ?</h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Calculez votre ROI sur l'automatisation IA en 2 minutes</p>
+            </div>
+        </section>
+        <section class="calculator" id="calculator">
+            <div class="container">
+                <form id="roi-form" class="form-card" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="employees" data-i18n="form.employees">Nombre de collaborateurs</label>
+                            <input type="number" id="employees" min="1" max="10000" required placeholder="ex: 25" aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="hourlyRate" data-i18n="form.hourlyRate">Coût horaire moyen (€)</label>
+                            <input type="number" id="hourlyRate" min="15" max="200" required placeholder="ex: 45" aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="manualHours" data-i18n="form.manualHours">Heures/semaine en tâches répétitives</label>
+                            <input type="number" id="manualHours" min="1" max="80" required placeholder="ex: 15" aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="industry" data-i18n="form.industry">Votre secteur</label>
+                            <select id="industry" required aria-required="true">
+                                <option value="" disabled selected>--</option>
+                                <option value="facility" data-i18n="form.industries.facility">Facility Management</option>
+                                <option value="energy" data-i18n="form.industries.energy">Énergie & Utilities</option>
+                                <option value="maintenance" data-i18n="form.industries.maintenance">Maintenance technique</option>
+                                <option value="services" data-i18n="form.industries.services">Services B2B</option>
+                                <option value="other" data-i18n="form.industries.other">Autre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large" id="calc-btn"><span data-i18n="form.calculate">Calculer mon potentiel</span></button>
+                </form>
+            </div>
+        </section>
+        <section class="results" id="results-section" hidden>
+            <div class="container">
+                <h2 class="section-title" data-i18n="results.title">Votre potentiel d'optimisation</h2>
+                <div class="results-grid">
+                    <div class="result-card result-primary">
+                        <span class="result-label" data-i18n="results.annualSavings">Économies annuelles estimées</span>
+                        <span class="result-value" id="result-savings">€0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label" data-i18n="results.hoursReclaimed">Heures récupérées par an</span>
+                        <span class="result-value" id="result-hours">0h</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label" data-i18n="results.roi">Retour sur investissement</span>
+                        <span class="result-value" id="result-roi">0%</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="result-label" data-i18n="results.payback">Délai d'amortissement</span>
+                        <span class="result-value"><span id="result-payback">0</span> <span data-i18n="results.months">mois</span></span>
+                    </div>
+                </div>
+                <div class="email-capture" id="email-capture">
+                    <h3 data-i18n="emailCapture.title">Recevez votre rapport personnalisé</h3>
+                    <p data-i18n="emailCapture.subtitle">PDF détaillé + méthodologie envoyés instantanément</p>
+                    <form id="email-form" class="email-form" novalidate>
+                        <div class="input-group">
+                            <input type="email" id="user-email" required placeholder="votre@email.com" aria-required="true">
+                            <label class="consent-label">
+                                <input type="checkbox" id="consent-check" required aria-required="true">
+                                <span data-i18n="emailCapture.consent">J'accepte de recevoir ce rapport et les communications de Homieux Media (RGPD)</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-accent btn-large" id="send-btn"><span data-i18n="emailCapture.send">Envoyer mon rapport</span></button>
+                    </form>
+                    <div id="email-status" class="status-message" role="status" aria-live="polite"></div>
+                </div>
+                <div class="founder-message" id="founder-message">
+                    <div class="founder-avatar"><div class="avatar-placeholder">JB</div></div>
+                    <div class="founder-content">
+                        <span class="founder-role" data-i18n="founder.role">Fondateur, Homieux Media</span>
+                        <h3 data-i18n="founder.title">Pourquoi ces chiffres vous concernent directement</h3>
+                        <p data-i18n="founder.message">En travaillant avec des centaines d'entreprises techniques en Belgique, j'ai constaté un pattern constant : 40% du temps est consommé par des tâches que l'IA gère mieux et moins cher. Ce calculateur repose sur des données réelles de nos clients wallons, bruxellois et flamands. Si vos résultats vous surprennent, c'est normal — l'invisible coûte cher. Discutons-en sans filtre.</p>
+                        <p class="founder-signature"><span data-i18n="founder.signature">À bientôt,</span><br><strong data-i18n="founder.name">Jean-Baptiste</strong></p>
+                    </div>
+                </div>
+                <div class="cta-section">
+                    <a href="https://calendly.com/homieuxmedia/discovery-call-gratuit-discutons-de-vos-defis" class="btn btn-cta btn-large" target="_blank" rel="noopener" id="cta-button"><span data-i18n="cta.button">On en discute ?</span></a>
+                    <p class="cta-subtitle" data-i18n="cta.subtitle">30 minutes d'échange, sans engagement, pour explorer ensemble vos leviers d'optimisation.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <p class="rgpd-notice" data-i18n="footer.rgpd">Conforme RGPD • Données stockées 30 jours max</p>
+            <p class="copyright" data-i18n="footer.rights">© 2025 Homieux Media. Tous droits réservés.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // SOURCE DE VÉRITÉ LINGUISTIQUE
+        const i18n = {
+            fr: {
+                meta: { title: "Calculateur ROI — Homieux Media", description: "Découvrez votre potentiel de croissance avec l'IA" },
+                header: { tagline: "AI Marketing Agency in Belgium" },
+                hero: { title: "Quel est le véritable coût de vos process manuels ?", subtitle: "Calculez votre ROI sur l'automatisation IA en 2 minutes" },
+                form: { employees: "Nombre de collaborateurs", hourlyRate: "Coût horaire moyen (€)", manualHours: "Heures/semaine en tâches répétitives", industry: "Votre secteur", industries: { facility: "Facility Management", energy: "Énergie & Utilities", maintenance: "Maintenance technique", services: "Services B2B", other: "Autre" }, calculate: "Calculer mon potentiel", calculating: "Analyse en cours..." },
+                results: { title: "Votre potentiel d'optimisation", annualSavings: "Économies annuelles estimées", hoursReclaimed: "Heures récupérées par an", roi: "Retour sur investissement", payback: "Délai d'amortissement", months: "mois" },
+                emailCapture: { title: "Recevez votre rapport personnalisé", subtitle: "PDF détaillé + méthodologie envoyés instantanément", emailPlaceholder: "votre@email.com", consent: "J'accepte de recevoir ce rapport et les communications de Homieux Media (RGPD)", consentRequired: "Le consentement est obligatoire pour recevoir le PDF", send: "Envoyer mon rapport", sending: "Envoi en cours...", success: "✓ PDF envoyé ! Vérifiez vos emails (spam inclus)", error: "Erreur d'envoi. Vos résultats restent disponibles ci-dessus." },
+                founder: { name: "Jean-Baptiste", role: "Fondateur, Homieux Media", title: "Pourquoi ces chiffres vous concernent directement", message: "En travaillant avec des centaines d'entreprises techniques en Belgique, j'ai constaté un pattern constant : 40% du temps est consommé par des tâches que l'IA gère mieux et moins cher. Ce calculateur repose sur des données réelles de nos clients wallons, bruxellois et flamands. Si vos résultats vous surprennent, c'est normal — l'invisible coûte cher. Discutons-en sans filtre.", signature: "À bientôt," },
+                cta: { button: "On en discute ?", subtitle: "30 minutes d'échange, sans engagement, pour explorer ensemble vos leviers d'optimisation." },
+                footer: { rgpd: "Conforme RGPD • Données stockées 30 jours max", rights: "© 2025 Homieux Media. Tous droits réservés." },
+                pdf: { title: "Rapport ROI — Automatisation IA", executiveSummary: "Résumé exécutif", methodology: "Méthodologie", methodologyText: "Calcul basé sur : (Heures manuelles × Taux horaire × 46 semaines) × 70% d'efficacité IA. Données validées sur 150+ entreprises belges.", founderSection: "Note du fondateur", nextSteps: "Prochaines étapes suggérées", step1: "Auditer vos 3 process les plus chronophages", step2: "Identifier les quick wins automatisables", step3: "Tester sur un pilote de 30 jours" }
+            },
+            nl: {
+                meta: { title: "ROI Calculator — Homieux Media", description: "Ontdek uw groeipotentieel met AI" },
+                header: { tagline: "AI Marketing Agency in Belgium" },
+                hero: { title: "Wat kosten handmatige processen u écht?", subtitle: "Bereken uw AI-automatisering ROI in 2 minuten" },
+                form: { employees: "Aantal medewerkers", hourlyRate: "Gemiddeld uurloon (€)", manualHours: "Uren/week aan repetitief werk", industry: "Uw sector", industries: { facility: "Facility Management", energy: "Energie & Utilities", maintenance: "Technisch onderhoud", services: "B2B Diensten", other: "Andere" }, calculate: "Bereken mijn potentieel", calculating: "Analyse bezig..." },
+                results: { title: "Uw optimalisatiepotentieel", annualSavings: "Geschatte jaarlijkse besparing", hoursReclaimed: "Uren teruggewonnen per jaar", roi: "Return on investment", payback: "Terugverdientijd", months: "maanden" },
+                emailCapture: { title: "Ontvang uw gepersonaliseerd rapport", subtitle: "Gedetailleerd PDF + methodologie direct verzonden", emailPlaceholder: "uw@email.com", consent: "Ik ga akkoord om dit rapport en communicatie van Homieux Media te ontvangen (AVG)", consentRequired: "Toestemming is verplicht om het PDF te ontvangen", send: "Stuur mijn rapport", sending: "Bezig met verzenden...", success: "✓ PDF verzonden! Check uw email (spam inclusief)", error: "Verzendfout. Uw resultaten blijven hierboven beschikbaar." },
+                founder: { name: "Jean-Baptiste", role: "Oprichter, Homieux Media", title: "Waarom deze cijfers u direct aangaan", message: "Na samenwerking met honderden technische bedrijven in België zie ik een constant patroon: 40% van de tijd verdwijnt in taken die AI beter en goedkoper uitvoert. Deze calculator is gebaseerd op echte data van onze Waalse, Brusselse en Vlaamse klanten. Als deze cijfers u verrassen, is dat normaal — het onzichtbare kost geld. Laten we er open over praten.", signature: "Tot binnenkort," },
+                cta: { button: "Laten we kennismaken", subtitle: "30 minuten vrijblijvend gesprek om samen uw optimalisatiehefbomen te verkennen." },
+                footer: { rgpd: "AVG-conform • Gegevens max 30 dagen bewaard", rights: "© 2025 Homieux Media. Alle rechten voorbehouden." },
+                pdf: { title: "ROI Rapport — AI Automatisering", executiveSummary: "Executive summary", methodology: "Methodologie", methodologyText: "Berekening gebaseerd op: (Handmatige uren × Uurloon × 46 weken) × 70% AI-efficiëntie. Gevalideerd bij 150+ Belgische bedrijven.", founderSection: "Woord van de oprichter", nextSteps: "Voorgestelde vervolgstappen", step1: "Auditeer uw 3 meest tijdrovende processen", step2: "Identificeer automatiseerbare quick wins", step3: "Test met een 30-daagse pilot" }
+            },
+            en: {
+                meta: { title: "ROI Calculator — Homieux Media", description: "Discover your growth potential with AI automation" },
+                header: { tagline: "AI Marketing Agency in Belgium" },
+                hero: { title: "What's the real cost of your manual processes?", subtitle: "Calculate your AI automation ROI in 2 minutes" },
+                form: { employees: "Number of employees", hourlyRate: "Average hourly cost (€)", manualHours: "Hours/week on repetitive tasks", industry: "Your industry", industries: { facility: "Facility Management", energy: "Energy & Utilities", maintenance: "Technical Maintenance", services: "B2B Services", other: "Other" }, calculate: "Calculate my potential", calculating: "Analyzing..." },
+                results: { title: "Your optimization potential", annualSavings: "Estimated annual savings", hoursReclaimed: "Hours reclaimed per year", roi: "Return on investment", payback: "Payback period", months: "months" },
+                emailCapture: { title: "Get your personalized report", subtitle: "Detailed PDF + methodology sent instantly", emailPlaceholder: "your@email.com", consent: "I agree to receive this report and communications from Homieux Media (GDPR)", consentRequired: "Consent required to receive the PDF", send: "Send my report", sending: "Sending...", success: "✓ PDF sent! Check your email (spam folder included)", error: "Send error. Your results remain available above." },
+                founder: { name: "Jean-Baptiste", role: "Founder, Homieux Media", title: "Why these numbers matter to you", message: "After working with hundreds of technical companies in Belgium, I see a consistent pattern: 40% of time is consumed by tasks that AI handles better and cheaper. This calculator is built on real data from our Walloon, Brussels, and Flemish clients. If these numbers surprise you, that's normal — the invisible costs dearly. Let's talk without filters.", signature: "Best regards," },
+                cta: { button: "Let's talk", subtitle: "30-minute no-obligation call to explore your optimization levers together." },
+                footer: { rgpd: "GDPR Compliant • Data stored max 30 days", rights: "© 2025 Homieux Media. All rights reserved." },
+                pdf: { title: "ROI Report — AI Automation", executiveSummary: "Executive summary", methodology: "Methodology", methodologyText: "Calculation based on: (Manual hours × Hourly rate × 46 weeks) × 70% AI efficiency. Validated across 150+ Belgian companies.", founderSection: "Founder's note", nextSteps: "Suggested next steps", step1: "Audit your 3 most time-consuming processes", step2: "Identify automatable quick wins", step3: "Test with a 30-day pilot" }
+            }
+        };
+
+        // GESTION LANGUE
+        const LangManager = {
+            currentLang: 'fr',
+            detect() {
+                const saved = localStorage.getItem('hm_lang');
+                if (saved && i18n[saved]) return saved;
+                const browserLang = navigator.language || navigator.userLanguage;
+                const primary = browserLang.split('-')[0];
+                if (i18n[primary]) return primary;
+                if (primary === 'be') return 'nl';
+                return 'fr';
+            },
+            set(lang) {
+                if (!i18n[lang]) return;
+                this.currentLang = lang;
+                localStorage.setItem('hm_lang', lang);
+                document.documentElement.lang = lang;
+                this.apply();
+            },
+            apply() {
+                const texts = i18n[this.currentLang];
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const value = key.split('.').reduce((obj, k) => obj?.[k], texts);
+                    if (value) {
+                        if (el.tagName === 'INPUT' && el.type !== 'submit') {
+                            el.placeholder = value;
+                        } else {
+                            el.textContent = value;
+                        }
+                    }
+                });
+                document.title = texts.meta.title;
+            }
+        };
+
+        // CALCULATEUR
+        class ROICalculator {
+            calculate(inputs) {
+                const { employees, hourlyRate, manualHours, industry } = inputs;
+                const WEEKS_PER_YEAR = 46;
+                const AI_EFFICIENCY = 0.70;
+                const weeklyCost = employees * manualHours * hourlyRate;
+                const annualManualCost = weeklyCost * WEEKS_PER_YEAR;
+                const annualSavings = annualManualCost * AI_EFFICIENCY;
+                const hoursReclaimed = employees * manualHours * WEEKS_PER_YEAR * AI_EFFICIENCY;
+                const implementationCost = annualSavings * 0.5;
+                const roi = ((annualSavings - implementationCost) / implementationCost) * 100;
+                const paybackMonths = Math.ceil((implementationCost / annualSavings) * 12);
+                const sectorMultipliers = { facility: 1.15, energy: 1.20, maintenance: 1.10, services: 1.0, other: 1.0 };
+                const adjustedSavings = Math.round(annualSavings * (sectorMultipliers[industry] || 1.0));
+                return { annualSavings: adjustedSavings, hoursReclaimed: Math.round(hoursReclaimed), roi: Math.round(roi), paybackMonths, implementationCost: Math.round(implementationCost), inputs, calculatedAt: new Date().toISOString() };
+            }
+        }
+
+        // PDF GENERATOR
+        class PDFGenerator {
+            constructor(lang = 'fr') {
+                this.lang = lang;
+                this.texts = i18n[lang].pdf;
+                this.colors = { primary: [0, 8, 135], accent: [237, 81, 194], white: [255, 255, 255], gray: [100, 100, 100] };
+            }
+            generate(data) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                this.addHeader(doc);
+                let y = 50;
+                y = this.addExecutiveSummary(doc, data, y);
+                y = this.addResults(doc, data, y);
+                y = this.addMethodology(doc, y);
+                y = this.addFounderMessage(doc, y);
+                y = this.addNextSteps(doc, y);
+                y = this.addCTA(doc, y);
+                this.addFooter(doc);
+                return doc;
+            }
+            addHeader(doc) {
+                doc.setFillColor(...this.colors.primary);
+                doc.rect(0, 0, 210, 35, 'F');
+                doc.setTextColor(...this.colors.white);
+                doc.setFontSize(24);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Homieux Media', 20, 22);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.text('AI Marketing Agency — Belgium', 20, 30);
+                doc.setDrawColor(...this.colors.accent);
+                doc.setLineWidth(2);
+                doc.line(20, 38, 190, 38);
+            }
+            addExecutiveSummary(doc, data, y) {
+                doc.setTextColor(...this.colors.primary);
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.text(this.texts.executiveSummary, 20, y);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(...this.colors.gray);
+                const summary = `Basé sur vos données (${data.inputs.employees} collaborateurs, secteur ${data.inputs.industry}), votre potentiel d'économie annuelle est de ${data.annualSavings.toLocaleString()}€.`;
+                doc.text(doc.splitTextToSize(summary, 170), 20, y + 10);
+                return y + 25;
+            }
+            addResults(doc, data, y) {
+                doc.setFillColor(245, 245, 250);
+                doc.rect(20, y, 170, 50, 'F');
+                doc.setTextColor(...this.colors.primary);
+                doc.setFontSize(12);
+                const results = [['Économies annuelles', `${data.annualSavings.toLocaleString()}€`], ['Heures récupérées', `${data.hoursReclaimed.toLocaleString()}h`], ['ROI', `${data.roi}%`], ['Délai amortissement', `${data.paybackMonths} mois`]];
+                let currentY = y + 15;
+                results.forEach(([label, value]) => {
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(10);
+                    doc.setTextColor(...this.colors.gray);
+                    doc.text(label, 30, currentY);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(12);
+                    doc.setTextColor(...this.colors.primary);
+                    doc.text(value, 120, currentY);
+                    currentY += 10;
+                });
+                return y + 60;
+            }
+            addMethodology(doc, y) {
+                doc.setTextColor(...this.colors.primary);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text(this.texts.methodology, 20, y);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(...this.colors.gray);
+                doc.text(doc.splitTextToSize(this.texts.methodologyText, 170), 20, y + 10);
+                return y + 30;
+            }
+            addFounderMessage(doc, y) {
+                doc.setDrawColor(...this.colors.accent);
+                doc.setLineWidth(3);
+                doc.line(20, y, 20, y + 40);
+                doc.setTextColor(...this.colors.primary);
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.text(this.texts.founderSection, 30, y + 5);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'italic');
+                doc.setTextColor(...this.colors.gray);
+                const message = i18n[this.lang].founder.message;
+                doc.text(doc.splitTextToSize(message, 150), 30, y + 15);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`— ${i18n[this.lang].founder.name}`, 30, y + 45);
+                return y + 55;
+            }
+            addNextSteps(doc, y) {
+                doc.setTextColor(...this.colors.primary);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text(this.texts.nextSteps, 20, y);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(...this.colors.gray);
+                const steps = [`1. ${this.texts.step1}`, `2. ${this.texts.step2}`, `3. ${this.texts.step3}`];
+                let currentY = y + 10;
+                steps.forEach(step => { doc.text(step, 25, currentY); currentY += 8; });
+                return y + 40;
+            }
+            addCTA(doc, y) {
+                doc.setFillColor(240, 240, 255);
+                doc.rect(20, y, 170, 35, 'F');
+                doc.setTextColor(...this.colors.primary);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text("Prêt à passer à l'action ?", 30, y + 12);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.text('Rendez-vous sur homieuxmedia.com', 30, y + 22);
+                return y + 45;
+            }
+            addFooter(doc) {
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setDrawColor(...this.colors.accent);
+                    doc.setLineWidth(1);
+                    doc.line(20, 280, 190, 280);
+                    doc.setTextColor(...this.colors.gray);
+                    doc.setFontSize(8);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text('© 2025 Homieux Media — Conforme RGPD/AVG/GDPR', 20, 288);
+                    doc.text(`Page ${i}/${pageCount}`, 180, 288);
+                }
+            }
+        }
+
+        // APP
+        class ROIApp {
+            constructor() {
+                this.calculator = new ROICalculator();
+                this.currentResults = null;
+                this.init();
+            }
+            init() {
+                const detectedLang = LangManager.detect();
+                LangManager.set(detectedLang);
+                this.bindEvents();
+            }
+            bindEvents() {
+                const langSelect = document.getElementById('lang-select');
+                if (langSelect) {
+                    langSelect.value = LangManager.currentLang;
+                    langSelect.addEventListener('change', (e) => LangManager.set(e.target.value));
+                }
+                const form = document.getElementById('roi-form');
+                if (form) form.addEventListener('submit', (e) => this.handleCalculate(e));
+                const emailForm = document.getElementById('email-form');
+                if (emailForm) emailForm.addEventListener('submit', (e) => this.handleEmailSubmit(e));
+            }
+            handleCalculate(e) {
+                e.preventDefault();
+                const btn = document.getElementById('calc-btn');
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `<span>${i18n[LangManager.currentLang].form.calculating}</span>`;
+                try {
+                    const inputs = {
+                        employees: parseInt(document.getElementById('employees').value),
+                        hourlyRate: parseInt(document.getElementById('hourlyRate').value),
+                        manualHours: parseInt(document.getElementById('manualHours').value),
+                        industry: document.getElementById('industry').value
+                    };
+                    this.currentResults = this.calculator.calculate(inputs);
+                    this.displayResults(this.currentResults);
+                } catch (error) {
+                    alert(i18n[LangManager.currentLang].errors?.validation || 'Erreur de validation');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            }
+            displayResults(results) {
+                const section = document.getElementById('results-section');
+                section.hidden = false;
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                this.animateValue('result-savings', results.annualSavings, 'currency');
+                this.animateValue('result-hours', results.hoursReclaimed, 'number');
+                this.animateValue('result-roi', results.roi, 'percentage');
+                this.animateValue('result-payback', results.paybackMonths, 'number');
+            }
+            animateValue(id, value, type) {
+                const el = document.getElementById(id);
+                const duration = 1000;
+                const start = 0;
+                const startTime = performance.now();
+                const update = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(start + (value - start) * easeProgress);
+                    if (type === 'currency') el.textContent = new Intl.NumberFormat('fr-BE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(current);
+                    else if (type === 'percentage') el.textContent = current + '%';
+                    else el.textContent = new Intl.NumberFormat('fr-BE').format(current);
+                    if (progress < 1) requestAnimationFrame(update);
+                };
+                requestAnimationFrame(update);
+            }
+            async handleEmailSubmit(e) {
+                e.preventDefault();
+                const emailInput = document.getElementById('user-email');
+                const consentCheck = document.getElementById('consent-check');
+                const btn = document.getElementById('send-btn');
+                const status = document.getElementById('email-status');
+                const texts = i18n[LangManager.currentLang].emailCapture;
+                if (!consentCheck.checked) {
+                    status.textContent = texts.consentRequired;
+                    status.className = 'status-message error';
+                    return;
+                }
+                btn.disabled = true;
+                btn.innerHTML = `<span>${texts.sending}</span>`;
+                try {
+                    const generator = new PDFGenerator(LangManager.currentLang);
+                    const doc = generator.generate(this.currentResults);
+                    generator.download(doc);
+                    status.textContent = texts.success + ' (PDF téléchargé)';
+                    status.className = 'status-message success';
+                } catch (error) {
+                    status.textContent = texts.error;
+                    status.className = 'status-message error';
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>${texts.send}</span>`;
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => new ROIApp());
+    </script>
+</body>
+</html>
